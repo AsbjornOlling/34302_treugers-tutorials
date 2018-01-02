@@ -95,6 +95,15 @@ public class BaseConverter extends JFrame implements ActionListener {
 	} // event listener
 
 	public void convertFromBin(String binstring) {
+		// to decimal
+		Integer decimal = Integer.parseInt(binstring, 2);
+		System.out.println("DECIMAL: " + decimal);
+		fields.get("dec").setText(decimal.toString());
+
+		// to hex
+		String hexadecimal = Integer.toString(decimal, 16);
+		System.out.println("HEXADECIMAL: " + hexadecimal);
+		fields.get("hex").setText(hexadecimal);
 	}
 
 	public void convertFromDec(String decstring) {
