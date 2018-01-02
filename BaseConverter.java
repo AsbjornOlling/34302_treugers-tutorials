@@ -12,11 +12,6 @@ public class BaseConverter extends JFrame implements ActionListener {
 	private int height = 150;
 
 	public BaseConverter() { // constructor
-		// lars boilerplate	
-		this.setTitle("WOW SUCH WINDOWS");
-		this.setSize(width, height);
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setVisible(true);
 
 		// info for each of the three
 		String[] bases = {"bin", "dec", "hex"};
@@ -79,5 +74,11 @@ public class BaseConverter extends JFrame implements ActionListener {
 	public static void main(String[] args) {
 		// main object
 		BaseConverter bc = new BaseConverter();
+
+		// lars boilerplate	
+		bc.setTitle("WOW SUCH WINDOWS");
+		bc.setSize(bc.width, bc.height);
+		bc.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		bc.setVisible(true);
 	}
 }
