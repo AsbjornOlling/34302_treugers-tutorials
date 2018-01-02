@@ -10,6 +10,8 @@ import java.awt.event.*;
 public class BaseConverter extends JFrame implements ActionListener {
 	private int width = 700;
 	private int height = 150;
+	HashMap<JButton, String> buttons;
+	HashMap<String, JTextField> fields;
 
 	public BaseConverter() { // constructor
 
@@ -26,15 +28,19 @@ public class BaseConverter extends JFrame implements ActionListener {
 		btntxt.put("dec", "Convert from decimal");
 		btntxt.put("hex", "Convert from hexadecimal");
 
+		// keep track of buttons and textfields
+		buttons = new HashMap<JButton, String>();
+		fields = new HashMap<String, JTextField>();
+
 		// content pane
-		getContentPane().setLayout(new GridLayout(3, 1, 5, 20)); //*/
+		getContentPane().setLayout(new GridLayout(bases.length, 1, 0, 20));
 
 		// general layout params
 		Dimension btnsize = new Dimension(100, 30);
 		Component spacer = Box.createRigidArea(new Dimension(110, 50));
-		int txtfldchars = 40;
-		Dimension txtfldsize = new Dimension(15, 300);
+		int txtfldchars = 80;
 
+		// make the three lines
 		for ( String base : bases ) {
 			// the panel
 			JPanel panel = new JPanel();
@@ -45,12 +51,14 @@ public class BaseConverter extends JFrame implements ActionListener {
 
 			// text field
 			JTextField txt = new JTextField(txtfldchars);
+			fields.put(base, txt);
 
 			// button
 			JButton btn = new JButton(btntxt.get(base));
 			btn.addActionListener(this);
 			btn.setMaximumSize(btnsize);
 			btn.setAlignmentX(Component.CENTER_ALIGNMENT);
+			buttons.put(btn, base);
 
 			// put elements in panel
 			panel.add(label);
@@ -59,17 +67,61 @@ public class BaseConverter extends JFrame implements ActionListener {
 
 			// put panel i content pane
 			getContentPane().add(panel);
-		}
+		} // loop
 
 	} // constr
 
-
 	// main event listener
 	public void actionPerformed(ActionEvent e) {
-		String eventclass = e.getSource().getClass().getName();
-		System.out.println("EVENT CLASS: " + eventclass);
+		String cstring = e.getSource().getClass().getName();
+		System.out.println("EVENT CLASS: " + cstring);
 
+		// buttons
+		if (cstring == "javax.swing.JButton") {
+			JButton ebtn = (JButton) e.getSource();
+			String ebase = buttons.get(ebtn);
+			JTextField efield = fields.get(ebase);
+			String etext = efield.getText();
+			if (ebase == "bin") {
+				convertFromBin(etext);
+			} else if (ebase == "dec") {
+				convertFromDec(etext);
+			} else if (ebase == "hex") {
+				convertFromHex(etext);
+			}
+		} else {
+			System.out.println("UNKNOWN EVENT");
+		}
 	} // event listener
+
+	public void convertFromBin(String binstring) {
+	}
+
+	public void convertFromDec(String decstring) {
+		int decimal = Integer.parseInt(decstring, 10);
+
+		// to binary
+		String binary = Integer.toString(decimal, 2);
+		System.out.println("BINARY: " + binary);
+		fields.get("bin").setText(binary);
+
+		// to hex
+		String hexadecimal = Integer.toString(decimal, 16);
+		System.out.println("HEXADECIMAL: " + hexadecimal);
+		fields.get("hex").setText(hexadecimal);
+	}
+
+	public void convertFromHex(String hexstring) {
+		// to decimal
+		Integer decimal = Integer.parseInt(hexstring, 16);
+		System.out.println("DECIMAL: " + decimal);
+		fields.get("dec").setText(decimal.toString());
+
+		// to binary
+		String binary = Integer.toString(decimal, 2);
+		System.out.println("BINARY: " + binary);
+		fields.get("bin").setText(binary);
+	}
 
 	public static void main(String[] args) {
 		// main object
