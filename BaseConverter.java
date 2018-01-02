@@ -1,4 +1,6 @@
-// fjoller bare lidt med java swing
+// a GUI to convert between binary, decimal, and hexadecimal
+// Written by Asbjørn Olling on 2017/01/02
+// made for DTU Course 34302 - Java GUI Tutorial 1
 
 import java.util.*;
 
@@ -37,7 +39,6 @@ public class BaseConverter extends JFrame implements ActionListener {
 
 		// general layout params
 		Dimension btnsize = new Dimension(100, 30);
-		Component spacer = Box.createRigidArea(new Dimension(110, 50));
 		int txtfldchars = 80;
 
 		// make the three lines
@@ -94,6 +95,7 @@ public class BaseConverter extends JFrame implements ActionListener {
 		}
 	} // event listener
 
+	// convert from binary, and paste into fields
 	public void convertFromBin(String binstring) {
 		// to decimal
 		Integer decimal = Integer.parseInt(binstring, 2);
@@ -106,6 +108,7 @@ public class BaseConverter extends JFrame implements ActionListener {
 		fields.get("hex").setText(hexadecimal);
 	}
 
+	// convert from decimal, and paste into fields
 	public void convertFromDec(String decstring) {
 		int decimal = Integer.parseInt(decstring, 10);
 
@@ -120,6 +123,7 @@ public class BaseConverter extends JFrame implements ActionListener {
 		fields.get("hex").setText(hexadecimal);
 	}
 
+	// convert from hexadecimal, and paste into fields
 	public void convertFromHex(String hexstring) {
 		// to decimal
 		Integer decimal = Integer.parseInt(hexstring, 16);
