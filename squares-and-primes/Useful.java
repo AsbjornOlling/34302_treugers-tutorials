@@ -2,27 +2,47 @@
 
 import java.util.*;
 
+// for just one exception
+import java.io.*;
+
 // comfy gui
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
+// for images
+import java.awt.image.*;
+import javax.imageio.*;
+
 public class Useful extends JFrame implements ActionListener {
+	int WIDTH = 1000;
+	int HEIGHT = 1000;
+
+	// prime number stuff
 	JTextArea primesfield;
 	PrimesCalc pc;
+
+	// random rectangle stuff
+	Drawer rectChaos;
 
 	public Useful() {
 		getContentPane().setLayout(new GridLayout(2, 1));
 
+		// make square drawer
+		rectChaos = new Drawer(this);
+		getContentPane().add(rectChaos);
+		// run thread
+		Thread rt = new Thread(rectChaos);
+		rt.start();
+
 		// make text field
 		primesfield = new JTextArea();
+		primesfield.setLineWrap(true);
 		getContentPane().add(primesfield);
-		// start calculator and thread
+		// primes calculator
 		pc = new PrimesCalc(this);
 		Thread pt = new Thread(pc);
 		pt.start();
-
-		// make square drawer
 		
 	} // constructor
 
@@ -35,11 +55,75 @@ public class Useful extends JFrame implements ActionListener {
 
 		// GO GO GUI
 		useful.setTitle("Where's MY nobel prize?");
-		useful.setSize(500, 500);
+		useful.setSize(useful.WIDTH, useful.HEIGHT);
 		useful.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		useful.setVisible(true);
 	} // main
 } // Useful
+
+
+// draw random squares
+class Drawer extends JPanel implements Runnable {
+	Useful parent; // lol
+	Random rand;
+	BufferedImage steel;
+
+	public Drawer(Useful parent) {
+		this.parent = parent;
+		rand = new Random();
+
+		try {
+			steel = ImageIO.read(new File("steel"));
+		} catch (IOException ex) {
+			// DO YOU THINK I LIKE ERROR HANDLING
+			// NO 
+			// NO I DONT
+		}
+
+	} // constructor
+
+	public Dimension getPreferredSize() {
+		// take up a vertical half of window
+		return new Dimension(parent.WIDTH, parent.HEIGHT/2);
+	}
+
+	// draw the component
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		randRect();
+	} // paintcomponent
+
+	public void randRect() {
+		if (isShowing()) {
+			// draw random rectangle here
+			// random position
+			int posx = rand.nextInt(parent.WIDTH);
+			int posy = rand.nextInt(parent.HEIGHT/2);
+			// random size
+			int width = rand.nextInt(100);
+			int height = rand.nextInt(100);
+			// random color
+			Color randomcolor = new Color(rand.nextInt(255), 
+																		rand.nextInt(255), 
+																		rand.nextInt(255));
+			Graphics g = getGraphics();
+			g.setColor(randomcolor);
+			g.fillRect(posx, posy, width, height);
+			if (rand.nextInt(255) == 0) {
+				g.drawImage(steel, posx, 0, this);
+			}
+
+		}
+	}
+
+	public void run() {
+		while (true) {
+			randRect();
+			System.out.println("MAGIC PRINTLINE. DO NOT REMOVE.");
+		}
+	} // run
+}
+
 
 // prime calculator thread
 class PrimesCalc implements Runnable {
@@ -54,11 +138,12 @@ class PrimesCalc implements Runnable {
 	// contains the main thread loop
 	public void run() {
 		boolean thread_active = true;
-		int number = 3;
+		int number = 3; // start at known small prime
 		while (thread_active) {
+
+			// put primes textfield
 			if (isPrime(number)) {
-				// put into textfield
-				this.field.setText(this.field.getText()+number);
+				this.field.setText(this.field.getText()+number+", ");
 			}
 			number++;
 
@@ -68,28 +153,28 @@ class PrimesCalc implements Runnable {
 				// YOU DUMBASS. I WAS CALCULATING PRIMES FOR YOU.
 				// WHAT WILL YOU DO NOW?!
 			}
+
 		} // thread loop
 			// NEVER QUIT
-			// ONLY PRIMES
-
+			// ONLY PRIMES 
 	} // run
 
 	private boolean isPrime(int number) {
-		int testfactor = 2;
-
 		// assume prime until factor found
 		boolean factorfound = false;
-		System.out.println("NUM: "+number);
+
+		// search for factors
+		int testfactor = 2;
 		while (testfactor < number) {
 			if (number % testfactor == 0) {
 				factorfound = true;
+				break;
 			} 
-			System.out.println("MOD"+testfactor+": "+(number % testfactor));
 			testfactor++;
 		}
-		boolean isPrime = ! factorfound;
-		System.out.println("PRIME:"+isPrime);
+		
+		boolean isPrime = !factorfound;
 		return isPrime;
-	}
 
+	} // isPrime()
 }	// PrimesCalc

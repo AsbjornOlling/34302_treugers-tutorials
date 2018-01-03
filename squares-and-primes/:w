@@ -1,0 +1,34 @@
+// draw random squares and write out primes
+
+import java.util.*;
+
+// comfy gui
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+
+public class Useful extends JFrame implements ActionListener {
+
+	public Useful() {
+		getContentPane().setLayout(new GridLayout(2, 1));
+
+		// make text field
+		JTextField primes = new JTextField(500);
+		getContentPane().add(primes);
+	} // constructor
+
+	public void actionPerformed(ActionEvent e) {
+		// NOTHING
+	} // eventhandler
+
+	public static void main(String[] args) {
+		Useful useful = new Useful();
+
+		// GO GO GUI
+		useful.setTitle("FUCK KRYDS! BOLLE. FOR. LIFE.");
+		useful.setSize(500, 500);
+		useful.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		useful.setVisible(true);
+
+	} // main
+}
