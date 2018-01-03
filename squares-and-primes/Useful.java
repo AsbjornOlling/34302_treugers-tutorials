@@ -137,11 +137,10 @@ class PrimesCalc implements Runnable {
 
 	// contains the main thread loop
 	public void run() {
-		boolean thread_active = true;
 		int number = 3; // start at known small prime
-		while (thread_active) {
+		while (true) {
 
-			// put primes textfield
+			// put primes in textfield
 			if (isPrime(number)) {
 				this.field.setText(this.field.getText()+number+", ");
 			}
