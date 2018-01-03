@@ -72,7 +72,7 @@ public class BaseConverter extends JFrame implements ActionListener {
 
 	} // constr
 
-	// main event listener
+	// event listener
 	public void actionPerformed(ActionEvent e) {
 		String cstring = e.getSource().getClass().getName();
 		System.out.println("EVENT CLASS: " + cstring);
