@@ -119,7 +119,13 @@ class Drawer extends JPanel implements Runnable {
 	public void run() {
 		while (true) {
 			randRect();
-			System.out.println("MAGIC PRINTLINE. DO NOT REMOVE.");
+			try {
+				Thread.sleep(5);
+			} catch (InterruptedException ex) {
+				// YOU DUMBASS. I WAS CALCULATING PRIMES FOR YOU.
+				// WHAT WILL YOU DO NOW?!
+			}
+			//System.out.println("MAGIC PRINTLINE. DO NOT REMOVE.");
 		}
 	} // run
 }
@@ -147,7 +153,7 @@ class PrimesCalc implements Runnable {
 			number++;
 
 			try {
-				Thread.sleep(500);
+				Thread.sleep(100);
 			} catch (InterruptedException ex) {
 				// YOU DUMBASS. I WAS CALCULATING PRIMES FOR YOU.
 				// WHAT WILL YOU DO NOW?!
